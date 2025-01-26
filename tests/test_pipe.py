@@ -78,3 +78,13 @@ function_with_incorrect_type = Pipe | list | next
     # pyright detects that the pipe gets constructed with wrongly typed functions
     assert result.returncode == 1
     assert "reportOperatorIssue" in result.stdout
+
+
+def test_quad():
+    from src.simple_pipe import Pipe, partial2
+    from itertools import count, islice
+
+    first_ten_quad = (
+        Pipe | count | partial2(map, lambda x: x**2) | partial2(islice, arg2=10) | sum
+    )
+    assert first_ten_quad(0) == 285
