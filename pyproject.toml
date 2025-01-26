@@ -4,7 +4,7 @@ version         = "0.1.0"
 description     = "A Python package that provides a simple typed pipe operator for function composition."
 readme          = "README.md"
 authors         = [{ name = "mathangeurtsen" }, { name = "IshaGeurtsen" }]
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies    = []
 
 [project.optional-dependencies]
