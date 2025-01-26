@@ -1,5 +1,11 @@
 from __future__ import annotations
 from collections.abc import Callable
+from typing import TypeVar, Generic
+
+
+T = TypeVar("T")
+U = TypeVar("U")
+V = TypeVar("V")
 
 
 class _PipeStart:
@@ -11,11 +17,11 @@ class _PipeStart:
     def __init__(self) -> None:
         pass
 
-    def __or__[U, V](self, func: Callable[[U], V]):
+    def __or__(self, func: Callable[[T], U]) -> _Pipe[T, U]:
         return _Pipe(func)
 
 
-class _Pipe[T, U]:
+class _Pipe(Generic[T, U]):
     """Actual pipe implementation.
 
     Pipes are composed by the use of the  `|` operator,
@@ -25,7 +31,7 @@ class _Pipe[T, U]:
     def __init__(self, func: Callable[[T], U]) -> None:
         self.func = func
 
-    def __or__[V](self, func: Callable[[U], V]) -> _Pipe[T, V]:
+    def __or__(self, func: Callable[[U], V]) -> _Pipe[T, V]:
         return _Pipe(lambda x: func(self.func(x)))
 
     def __call__(self, x: T) -> U:
