@@ -14,7 +14,6 @@ dev = [
   'pytest~=8.3.4',
   'ruff~=0.9.3',
   'pyright~=1.1',
-  'rundoc~=0.4',
 ]
 
 [project.scripts]
@@ -25,7 +24,7 @@ test              = "pytest --cov"
 lint_check        = "ruff check --fix"
 lint_format       = "ruff format"
 type_check        = "pyright"
-check_doc         = "rundoc run README.md"
+check_doc         = "python -m doctest -v README.md"
 _check            = [
 	"lint_check",
 	"lint_format",
