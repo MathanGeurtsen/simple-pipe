@@ -52,7 +52,7 @@ The codebase is laughably tiny: therefore the only dependency is Generics (and G
 For testing and linting, setup the extra dependencies:
 ```
 uv venv
-uv sync --extra development
+uv sync --extra dev
 ```
 
 You can check if tests and building work with `poe build`.
