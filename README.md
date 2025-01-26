@@ -3,51 +3,67 @@
 
 A Python package that provides a simple typed pipe operator for function composition.
 
-## Installation
-
-```bash
-pip install simple-pipe
-```
+This is a weekend hobby project. If you wish to use a pipe operator in your code, take a look at the [alternatives](#comparison_to_alternatives), or simply check out the extremely short implementation in [pipe.py](src/simple_pipe/pipe.py).
 
 ## Usage
 
 `simple-pipe` allows for chaining together typed functions using a pipe operator (`|`). Pipes can be type checked by pyright.
 
-For example:
+For example, reverse a list and get the length of the last item:
 ```python
 from simple_pipe import Pipe
 
 # Chain multiple functions together
-pipeline = Pipe | list | reversed | iter | next
+reversed_first = Pipe | list | reversed | iter | next | len
 
-# Apply the pipeline to your data
-result = pipeline((1, 2, 3))  # Returns 3
+# call the function with input
+result = reversed_first(("a", "bb", "ccc"))
+assert result == 3
 ```
 
-### How It Works
-
-The pipe operator (`|`) composes functions from left to right. Each function's output becomes the input for the next function in the chain.
-
+Calculate the sum of the squares of the first 10 integers:
 ```python
-# These are equivalent:
-result1 = next(iter(reversed(list((1, 2, 3)))))
-result2 = (Pipe | list | reversed | iter | next)((1, 2, 3))
+from itertools import islice, count
+from simple_pipe import Pipe
+
+first_ten_quad = Pipe | count | (lambda nrs: map(lambda x:x**int(2), nrs)) | (lambda nrs: islice(nrs, 10)) | sum
+
+result = first_ten_quad(0)
+assert result == 285
 ```
 
-## Features
-- extremely simple implementation
-- Simple and intuitive syntax
-- Lightweight with no dependencies
-- Type-hint friendly
-- Works with built-in Python functions and custom callables
+All of these calls are fully compatible with type checking, but will also function without specific type annotations for example as in the use of the lambdas above.
 
 ## Requirements
 
 - Python 3.12+
 
-## Development
+## Comparison to alternatives
 
-The codebase is laughably tiny: therefore the only dependency is Generics (and Generics syntax from 3.12). 
+How does this compare to [Pipe](https://github.com/JulienPalard/Pipe)? First off, simple-pipe is just a weekend hobby project whereas Pipe has had a couple of years of development, so there's no comparison. 
+
+The intended use of simple-pipe's `Pipe` is to be a Forward Pipe Operator and nothing more, making no assumptions as to what kind of data passes through. 
+
+Pipe's class `Pipe.Pipe` is specific to generators, so the two work slightly differently in use.
+
+However, since `Pipe.Pipe` exposes its internal function through `.function`, we are actually compatible and can use those same functions in simple-pipe pipes:
+
+```python
+from itertools import count
+from pipe import select, take
+from src.simple_pipe import Pipe
+
+res_pipe_pipe = sum(count() | select(lambda x: x ** 2) | take(10))
+
+function_simple_pipe = Pipe | count | select(lambda x: x **2).function | take(10).function | sum
+res_simple_pipe = function_simple_pipe(0)
+
+assert res_pipe_pipe == res_simple_pipe
+```
+
+Note that for  `function_simple_pipe` the definition is completely defined in forward composition: the functions are applied in the order in which you read them. It's also reusable since the pipe defines a function instead of executing directly. 
+
+## Development
 
 For testing and linting, setup the extra dependencies:
 ```

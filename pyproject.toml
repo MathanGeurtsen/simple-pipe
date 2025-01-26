@@ -14,6 +14,7 @@ dev = [
   'pytest~=8.3.4',
   'ruff~=0.9.3',
   'pyright~=1.1',
+  'rundoc~=0.4',
 ]
 
 [project.scripts]
@@ -24,7 +25,14 @@ test              = "pytest --cov"
 lint_check        = "ruff check --fix"
 lint_format       = "ruff format"
 type_check        = "pyright"
-_check            = ["lint_check", "lint_format", "test", "type_check"]
+check_doc         = "rundoc run README.md"
+_check            = [
+	"lint_check",
+	"lint_format",
+	"check_doc",
+	"test",
+	"type_check",
+]
 check.sequence    = ["_check"]
 check.ignore_fail = true
 
