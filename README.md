@@ -40,7 +40,7 @@ All of these calls are fully compatible with type checking, but will also functi
 
 ## Comparison to alternatives
 
-How does this compare to [Pipe](https://github.com/JulienPalard/Pipe)? First off, simple-pipe is just a weekend hobby project whereas Pipe has had a couple of years of development, so there's no comparison. 
+How does this compare to [Pipe](https://github.com/JulienPalard/Pipe)? First off, simple-pipe is just a weekend hobby project whereas Pipe has had a couple of years of development, so in terms of code maturity, there's no comparison. 
 
 The intended use of simple-pipe's `Pipe` is to be a Forward Pipe Operator and nothing more, making no assumptions as to what kind of data passes through. 
 
