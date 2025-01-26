@@ -14,9 +14,6 @@ class _PipeStart:
     This allows the syntax to start simply with an object instead of a function call.
     """
 
-    def __init__(self) -> None:
-        pass
-
     def __or__(self, func: Callable[[T], U]) -> _Pipe[T, U]:
         return _Pipe(func)
 
