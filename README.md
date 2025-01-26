@@ -3,7 +3,7 @@
 
 A Python package that provides a simple typed pipe operator for function composition.
 
-This is a weekend hobby project. If you wish to use a pipe operator in your code, take a look at the [alternatives](#comparison_to_alternatives), or simply check out the extremely short implementation in [pipe.py](src/simple_pipe/pipe.py).
+This is a weekend hobby project. If you wish to use a pipe operator in your code, take a look at the [alternatives](#comparison-to-alternatives), or simply check out the extremely short implementation in [pipe.py](src/simple_pipe/pipe.py).
 
 ## Usage
 
@@ -11,25 +11,27 @@ This is a weekend hobby project. If you wish to use a pipe operator in your code
 
 For example, reverse a list and get the length of the last item:
 ```python
-from simple_pipe import Pipe
+>>> from simple_pipe import Pipe
 
-# Chain multiple functions together
-reversed_first = Pipe | list | reversed | iter | next | len
+>>> # Chain multiple functions together
+>>> reversed_first = Pipe | list | reversed | iter | next | len
 
-# call the function with input
-result = reversed_first(("a", "bb", "ccc"))
-assert result == 3
+>>> # call the function with input
+>>> result = reversed_first(("a", "bb", "ccc"))
+>>> assert result == 3
+
 ```
 
 Calculate the sum of the squares of the first 10 integers:
 ```python
-from itertools import islice, count
-from simple_pipe import Pipe
+>>> from itertools import islice, count
+>>> from simple_pipe import Pipe
 
-first_ten_quad = Pipe | count | (lambda nrs: map(lambda x:x**int(2), nrs)) | (lambda nrs: islice(nrs, 10)) | sum
+>>> first_ten_quad = Pipe | count | (lambda nrs: map(lambda x:x**int(2), nrs)) | (lambda nrs: islice(nrs, 10)) | sum
 
-result = first_ten_quad(0)
-assert result == 285
+>>> result = first_ten_quad(0)
+>>> assert result == 285
+
 ```
 
 All of these calls are fully compatible with type checking, but will also function without specific type annotations for example as in the use of the lambdas above.
@@ -51,15 +53,13 @@ However, since `Pipe.Pipe` exposes its internal function through `.function`, we
 ```python
 from itertools import count
 from pipe import select, take
-from src.simple_pipe import Pipe
-
-res_pipe_pipe = sum(count() | select(lambda x: x ** 2) | take(10))
+from simple_pipe import Pipe
 
 function_simple_pipe = Pipe | count | select(lambda x: x **2).function | take(10).function | sum
 res_simple_pipe = function_simple_pipe(0)
-
-assert res_pipe_pipe == res_simple_pipe
+assert res_pipe_pipe == res_simple_pipe == 285
 ```
+
 
 Note that for  `function_simple_pipe` the definition is completely defined in forward composition: the functions are applied in the order in which you read them. It's also reusable since the pipe defines a function instead of executing directly. 
 
