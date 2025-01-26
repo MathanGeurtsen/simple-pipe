@@ -1,14 +1,11 @@
 [project]
-name = "simple-pipe"
-version = "0.1.0"
-description = "A Python package that provides a simple typed pipe operator for function composition."
-readme = "README.md"
-authors = [
-    { name = "mathangeurtsen"},
-    { name = "IshaGeurtsen"}
-]
+name            = "simple-pipe"
+version         = "0.1.0"
+description     = "A Python package that provides a simple typed pipe operator for function composition."
+readme          = "README.md"
+authors         = [{ name = "mathangeurtsen" }, { name = "IshaGeurtsen" }]
 requires-python = ">=3.12"
-dependencies = []
+dependencies    = []
 
 [project.optional-dependencies]
 develop = [
@@ -16,7 +13,7 @@ develop = [
   'poethepoet~=0.32.1',
   'pytest~=8.3.4',
   'ruff~=0.9.3',
-  'pyright~=1.1'
+  'pyright~=1.1',
 ]
 
 [project.scripts]
@@ -27,24 +24,19 @@ test              = "pytest --cov"
 lint_check        = "ruff check --fix"
 lint_format       = "ruff format"
 type_check        = "pyright"
-_check            = [
-	"lint_check",
-	"lint_format",
-	"test",
-	"type_check"
-]
-check.sequence = ["_check"]
+_check            = ["lint_check", "lint_format", "test", "type_check"]
+check.sequence    = ["_check"]
 check.ignore_fail = true
 
 build = [
   { ref = "_check" },
-  { cmd = "uv build"},
-  { cmd = "uv run --with simple_pipe --no-project -- python -c \"import simple_pipe\""}
+  { cmd = "uv build" },
+  { cmd = "uv run --with simple_pipe --no-project -- python -c \"import simple_pipe\"" },
 ]
 
 
 [tool.ruff]
-line-length = 88
+line-length  = 88
 indent-width = 4
 
 [tool.ruff.lint]
@@ -61,35 +53,35 @@ select = [
   "C901",   # complexity check
 ]
 
-ignore = [ 
-"D203", # no-blank-line-before-class
-"D213", # multi-line-summary-second-line
-"D401", # non-imperative-mood
-"D100", # Missing docstring in public module
-"D205", # 1 blank line required
-"D400", # First line should end with a period
-"D415", # First line should end with a period
+ignore = [
+  "D203", # no-blank-line-before-class
+  "D213", # multi-line-summary-second-line
+  "D401", # non-imperative-mood
+  "D100", # Missing docstring in public module
+  "D205", # 1 blank line required
+  "D400", # First line should end with a period
+  "D415", # First line should end with a period
 ]
 
-fixable = ["ALL"]
+fixable   = ["ALL"]
 unfixable = []
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["D"]
 
 [tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
+quote-style               = "double"
+indent-style              = "space"
 skip-magic-trailing-comma = false
-line-ending = "auto"
-docstring-code-format = false
+line-ending               = "auto"
+docstring-code-format     = false
 
 [tool.pyright]
 
 [tool.pytest.ini_options]
-testpaths = ["tests/"]
+testpaths  = ["tests/"]
 pythonpath = ["src/"]
 
 [build-system]
-requires = ["hatchling"]
+requires      = ["hatchling"]
 build-backend = "hatchling.build"
