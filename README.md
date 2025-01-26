@@ -1,6 +1,5 @@
-[![Checked with pyright](https://microsoft.github.io/pyright/img/pyright_badge.svg)](https://microsoft.github.io/pyright/)
-
 # simple-pipe
+[![Checked with pyright](https://microsoft.github.io/pyright/img/pyright_badge.svg)](https://microsoft.github.io/pyright/)
 
 A Python package that provides a simple typed pipe operator for function composition.
 
@@ -44,7 +43,19 @@ result2 = (Pipe | list | reversed | iter | next)((1, 2, 3))
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.12+
+
+## Development
+
+The codebase is laughably tiny: therefore the only dependency is Generics (and Generics syntax from 3.12). 
+
+For testing and linting, setup the extra dependencies:
+```
+uv venv
+uv sync --extra development
+```
+
+You can check if tests and building work with `poe build`.
 
 ## License
 
