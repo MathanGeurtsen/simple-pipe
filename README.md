@@ -5,6 +5,12 @@ A Python package that provides a simple typed pipe operator for function composi
 
 This is a weekend hobby project. If you wish to use a pipe operator in your code, take a look at the [alternatives](#comparison-to-alternatives), or simply check out the extremely short implementation in [pipe.py](src/simple_pipe/pipe.py).
 
+You can install this package with pip using the following command:
+
+```
+pip install git+https://github.com/MathanGeurtsen/simple-pipe.git
+```
+
 ## Usage
 
 `simple-pipe` allows for chaining together typed functions using a pipe operator (`|`). Pipes can be type checked by pyright.
