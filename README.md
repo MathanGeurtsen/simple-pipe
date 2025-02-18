@@ -25,7 +25,8 @@ For example, reverse a list and get the length of the last item:
 Calculate the sum of the squares of the first 10 integers:
 ```python
 >>> from itertools import islice, count
->>> from simple_pipe import Pipe, partial2
+>>> from simple_pipe import Pipe
+>>> from simple_pipe import partial2
 >>> first_ten_quad = Pipe | count | partial2(map, lambda x: x**int(2)) | partial2(islice, arg2=10) | sum
 >>> assert first_ten_quad(0) == 285
 
