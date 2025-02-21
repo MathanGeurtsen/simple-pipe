@@ -78,3 +78,58 @@ function_with_incorrect_type = Pipe | list | next
     # pyright detects that the pipe gets constructed with wrongly typed functions
     assert result.returncode == 1
     assert "reportOperatorIssue" in result.stdout
+
+
+def test_quad():
+    from src.simple_pipe import Pipe, partial2
+    from itertools import count, islice
+
+    first_ten_quad = (
+        Pipe | count | partial2(map, lambda x: x**2) | partial2(islice, arg2=10) | sum
+    )
+    assert first_ten_quad(0) == 285
+
+
+def test_pipe_with_strings():
+    from src.simple_pipe import Pipe
+
+    # Test string processing pipeline
+    process_string = Pipe | str.upper | str.strip | (lambda x: x.replace(" ", "_"))
+    assert process_string("  hello world  ") == "HELLO_WORLD"
+
+
+def test_pipe_with_math():
+    from src.simple_pipe import Pipe, partial2
+    import math
+
+    # Test mathematical pipeline
+    calc = Pipe | abs | math.sqrt | partial2(round, arg2=2)
+    assert calc(-16) == 4.0
+
+
+def test_pipe_with_collections():
+    from src.simple_pipe import Pipe, partial2
+    from collections import Counter
+
+    # Test pipeline with collections and filtering
+    word_frequency = (
+        Pipe | str.lower | str.split | partial2(filter, lambda x: len(x) > 3) | Counter
+    )
+
+    result = word_frequency("The quick brown fox jumps over lazy dogs")
+    assert result["quick"] == 1
+    assert result["brown"] == 1
+    assert len(result) == 6  # Words longer than 3 letters
+
+
+def test_pipe_composition():
+    from src.simple_pipe import Pipe
+
+    # Test composing multiple pipes
+    transform1 = Pipe | str.upper | str.strip
+    transform2 = Pipe | (lambda x: x.replace(" ", "-"))
+
+    # Combine transformations using pipe composition
+    combined = Pipe | transform1 | transform2
+
+    assert combined("  hello world  ") == "HELLO-WORLD"

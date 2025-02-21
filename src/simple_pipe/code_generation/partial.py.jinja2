@@ -1,0 +1,52 @@
+
+{% for i in range(1, num_args + 1) %}
+@overload
+def partial{{ num_args }}(func: Callable[[{% for j in range(1, num_args + 1) %}A{{ j }}{{ ", " if not loop.last }}{% endfor %}], R], 
+    {%- for j in range(1, num_args + 1) %}
+    {%- if j == i %}
+    arg{{ j }}: Any = EMPTY{{ "," if not loop.last }}
+    {%- else %}
+    arg{{ j }}: A{{ j }} = None{{ "," if not loop.last }}
+    {%- endif %}
+    {%- endfor %}) -> Callable[[A{{ i }}], R]: ...
+{% endfor %}
+
+def partial{{ num_args }}( # pyright: ignore [reportInconsistentOverload]
+    func: Callable[[{% for i in range(1, num_args + 1) %}A{{ i }}{{ "," if not loop.last }}{% endfor %}], R], 
+    {%- for i in range(1, num_args + 1) %}
+    arg{{ i }}=EMPTY{{ "," if not loop.last }}
+    {%- endfor %}):
+    """
+    Partially apply a function with {{ num_args }} arguments, binding all but one.
+
+    This function implements partial application, allowing you to fix all but one
+    argument of a {{ num_args }}-argument function, returning a new function that
+    only needs the remaining argument.
+
+    Args:
+        func: A callable that takes {{ num_args }} arguments
+        {% for i in range(1, num_args) -%}
+        arg{{ i }}: The {{ i }}th argument to bind.
+        {% endfor %}arg{{ num_args }}: The {{ num_args }}th argument to bind.
+
+    Returns:
+        A new function taking a single free argument
+
+    Raises:
+        ValueError: If the provided arguments cannot be bound correctly
+            (e.g., too many EMPTY values)
+
+    Example:
+        >>> def add{{ num_args }}({% for i in range(1, num_args + 1) %}x{{ i }}{{ ", " if not loop.last }}{% endfor %}):
+        ...     return {% for i in range(1, num_args + 1) %}x{{ i }}{{ " + " if not loop.last }}{% endfor %}
+        >>> add_five = partial{{ num_args }}(add{{ num_args }}, {% for i in range(1, num_args) %}5, {% endfor %})
+        >>> add_five(3)
+        {% set total = (num_args - 1) * 5 + 3 %}{{ total }}
+
+    """{% for combo in combinations %}
+    if ({% for arg in combo %}arg{{ arg }} is not EMPTY{% if not loop.last %}
+        and {% endif %}{% endfor %}):
+        return lambda free_arg: func({{ function_args(combo, num_args) }})  # pyright: ignore [reportArgumentType]
+{% endfor %}
+    raise ValueError("Couldn't bind provided function to provided arguments.")
+

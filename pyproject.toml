@@ -7,13 +7,14 @@ authors         = [{ name = "mathangeurtsen" }, { name = "IshaGeurtsen" }]
 requires-python = ">=3.9"
 dependencies    = []
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-  'pytest-cov~=6.0.0',
-  'poethepoet~=0.32.1',
-  'pytest~=8.3.4',
-  'ruff~=0.9.3',
-  'pyright~=1.1',
+  "jinja2>=3.1.5",
+  "pytest-cov~=6.0.0",
+  "poethepoet~=0.32.1",
+  "pytest~=8.3.4",
+  "ruff~=0.9.3",
+  "pyright~=1.1",
 ]
 
 [project.scripts]
@@ -23,11 +24,16 @@ typed-pipe = "simple_pipe:main"
 test              = "pytest --cov"
 lint_check        = "ruff check --fix"
 lint_format       = "ruff format"
+lock_check        = "uv lock --check"
+generate_code     = "python src/simple_pipe/code_generation/generate_partial.py"
+generate_check    = "python src/simple_pipe/code_generation/partial.py; git diff src/simple_pipe/generated"
 type_check        = "pyright"
-check_doc         = "python -m doctest -v README.md"
+check_doc         = "python -m doctest -v README.md src/simple_pipe/generated/partial.py"
 _check            = [
 	"lint_check",
 	"lint_format",
+	"lock_check",
+	"generate_code",
 	"check_doc",
 	"test",
 	"type_check",
@@ -68,6 +74,7 @@ ignore = [
   "D205", # 1 blank line required
   "D400", # First line should end with a period
   "D415", # First line should end with a period
+  "D212", # comment on first line
 ]
 
 fixable   = ["ALL"]
@@ -92,3 +99,10 @@ pythonpath = ["src/"]
 [build-system]
 requires      = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/simple_pipe",
+    ]
+
+

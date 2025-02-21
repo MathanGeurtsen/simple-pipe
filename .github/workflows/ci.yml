@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        pip install uv
+        uv sync --extra dev
+        
+    - name: Run lint checks
+      run: uv run poe lint_check
+      
+    - name: Run format checks
+      run: uv run poe lint_format
+      
+    - name: Check lock file
+      run: uv run poe lock_check
+      
+    - name: Generate code
+      run: uv run poe generate_code
+      
+    - name: Check documentation
+      run: uv run poe check_doc
+      
+    - name: Run tests
+      run: uv run poe test
+      
+    - name: Run type checks
+      run: uv run poe type_check

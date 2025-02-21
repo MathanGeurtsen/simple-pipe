@@ -32,11 +32,9 @@ Calculate the sum of the squares of the first 10 integers:
 ```python
 >>> from itertools import islice, count
 >>> from simple_pipe import Pipe
-
->>> first_ten_quad = Pipe | count | (lambda nrs: map(lambda x:x**int(2), nrs)) | (lambda nrs: islice(nrs, 10)) | sum
-
->>> result = first_ten_quad(0)
->>> assert result == 285
+>>> from simple_pipe import partial2
+>>> first_ten_quad = Pipe | count | partial2(map, lambda x: x**int(2)) | partial2(islice, arg2=10) | sum
+>>> assert first_ten_quad(0) == 285
 
 ```
 
@@ -62,10 +60,9 @@ from pipe import select, take
 from simple_pipe import Pipe
 
 function_simple_pipe = Pipe | count | select(lambda x: x **2).function | take(10).function | sum
-res_simple_pipe = function_simple_pipe(0)
-assert res_pipe_pipe == res_simple_pipe == 285
-```
 
+assert function_simple_pipe(0) == 285
+```
 
 Note that for  `function_simple_pipe` the definition is completely defined in forward composition: the functions are applied in the order in which you read them. It's also reusable since the pipe defines a function instead of executing directly. 
 
