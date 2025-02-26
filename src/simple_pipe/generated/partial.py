@@ -15,19 +15,19 @@ EMPTY = object()
 
 @overload
 def partial2(func: Callable[[A1, A2], R],
-    arg1: Any = EMPTY,
-    arg2: A2 = None) -> Callable[[A1], R]: ...
+    __arg1: Any = EMPTY,
+    __arg2: A2 = None) -> Callable[[A1], R]: ...
 
 @overload
 def partial2(func: Callable[[A1, A2], R],
-    arg1: A1 = None,
-    arg2: Any = EMPTY) -> Callable[[A2], R]: ...
+    __arg1: A1 = None,
+    __arg2: Any = EMPTY) -> Callable[[A2], R]: ...
 
 
 def partial2( # pyright: ignore [reportInconsistentOverload]
     func: Callable[[A1,A2], R],
-    arg1=EMPTY,
-    arg2=EMPTY):
+    __arg1,
+    __arg2):
     """
     Partially apply a function with 2 arguments, binding all but one.
 
@@ -55,39 +55,39 @@ def partial2( # pyright: ignore [reportInconsistentOverload]
         8
 
     """
-    if (arg1 is not EMPTY):
-        return lambda free_arg: func(arg1, free_arg)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __free_arg)  # pyright: ignore [reportArgumentType]
 
-    if (arg2 is not EMPTY):
-        return lambda free_arg: func(free_arg, arg2)  # pyright: ignore [reportArgumentType]
+    if (__arg2 is not EMPTY):
+        return lambda __free_arg: func(__free_arg, __arg2)  # pyright: ignore [reportArgumentType]
 
     raise ValueError("Couldn't bind provided function to provided arguments.")
 
 
 @overload
 def partial3(func: Callable[[A1, A2, A3], R],
-    arg1: Any = EMPTY,
-    arg2: A2 = None,
-    arg3: A3 = None) -> Callable[[A1], R]: ...
+    __arg1: Any = EMPTY,
+    __arg2: A2 = None,
+    __arg3: A3 = None) -> Callable[[A1], R]: ...
 
 @overload
 def partial3(func: Callable[[A1, A2, A3], R],
-    arg1: A1 = None,
-    arg2: Any = EMPTY,
-    arg3: A3 = None) -> Callable[[A2], R]: ...
+    __arg1: A1 = None,
+    __arg2: Any = EMPTY,
+    __arg3: A3 = None) -> Callable[[A2], R]: ...
 
 @overload
 def partial3(func: Callable[[A1, A2, A3], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: Any = EMPTY) -> Callable[[A3], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: Any = EMPTY) -> Callable[[A3], R]: ...
 
 
 def partial3( # pyright: ignore [reportInconsistentOverload]
     func: Callable[[A1,A2,A3], R],
-    arg1=EMPTY,
-    arg2=EMPTY,
-    arg3=EMPTY):
+    __arg1,
+    __arg2,
+    __arg3):
     """
     Partially apply a function with 3 arguments, binding all but one.
 
@@ -116,56 +116,56 @@ def partial3( # pyright: ignore [reportInconsistentOverload]
         13
 
     """
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, free_arg)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __free_arg)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg3 is not EMPTY):
-        return lambda free_arg: func(arg1, free_arg, arg3)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg3 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __free_arg, __arg3)  # pyright: ignore [reportArgumentType]
 
-    if (arg2 is not EMPTY
-        and arg3 is not EMPTY):
-        return lambda free_arg: func(free_arg, arg2, arg3)  # pyright: ignore [reportArgumentType]
+    if (__arg2 is not EMPTY
+        and __arg3 is not EMPTY):
+        return lambda __free_arg: func(__free_arg, __arg2, __arg3)  # pyright: ignore [reportArgumentType]
 
     raise ValueError("Couldn't bind provided function to provided arguments.")
 
 
 @overload
 def partial4(func: Callable[[A1, A2, A3, A4], R],
-    arg1: Any = EMPTY,
-    arg2: A2 = None,
-    arg3: A3 = None,
-    arg4: A4 = None) -> Callable[[A1], R]: ...
+    __arg1: Any = EMPTY,
+    __arg2: A2 = None,
+    __arg3: A3 = None,
+    __arg4: A4 = None) -> Callable[[A1], R]: ...
 
 @overload
 def partial4(func: Callable[[A1, A2, A3, A4], R],
-    arg1: A1 = None,
-    arg2: Any = EMPTY,
-    arg3: A3 = None,
-    arg4: A4 = None) -> Callable[[A2], R]: ...
+    __arg1: A1 = None,
+    __arg2: Any = EMPTY,
+    __arg3: A3 = None,
+    __arg4: A4 = None) -> Callable[[A2], R]: ...
 
 @overload
 def partial4(func: Callable[[A1, A2, A3, A4], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: Any = EMPTY,
-    arg4: A4 = None) -> Callable[[A3], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: Any = EMPTY,
+    __arg4: A4 = None) -> Callable[[A3], R]: ...
 
 @overload
 def partial4(func: Callable[[A1, A2, A3, A4], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: A3 = None,
-    arg4: Any = EMPTY) -> Callable[[A4], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: A3 = None,
+    __arg4: Any = EMPTY) -> Callable[[A4], R]: ...
 
 
 def partial4( # pyright: ignore [reportInconsistentOverload]
     func: Callable[[A1,A2,A3,A4], R],
-    arg1=EMPTY,
-    arg2=EMPTY,
-    arg3=EMPTY,
-    arg4=EMPTY):
+    __arg1,
+    __arg2,
+    __arg3,
+    __arg4):
     """
     Partially apply a function with 4 arguments, binding all but one.
 
@@ -195,77 +195,77 @@ def partial4( # pyright: ignore [reportInconsistentOverload]
         18
 
     """
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY
-        and arg3 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, arg3, free_arg)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY
+        and __arg3 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __arg3, __free_arg)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY
-        and arg4 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, free_arg, arg4)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY
+        and __arg4 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __free_arg, __arg4)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg3 is not EMPTY
-        and arg4 is not EMPTY):
-        return lambda free_arg: func(arg1, free_arg, arg3, arg4)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg4 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __free_arg, __arg3, __arg4)  # pyright: ignore [reportArgumentType]
 
-    if (arg2 is not EMPTY
-        and arg3 is not EMPTY
-        and arg4 is not EMPTY):
-        return lambda free_arg: func(free_arg, arg2, arg3, arg4)  # pyright: ignore [reportArgumentType]
+    if (__arg2 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg4 is not EMPTY):
+        return lambda __free_arg: func(__free_arg, __arg2, __arg3, __arg4)  # pyright: ignore [reportArgumentType]
 
     raise ValueError("Couldn't bind provided function to provided arguments.")
 
 
 @overload
 def partial5(func: Callable[[A1, A2, A3, A4, A5], R],
-    arg1: Any = EMPTY,
-    arg2: A2 = None,
-    arg3: A3 = None,
-    arg4: A4 = None,
-    arg5: A5 = None) -> Callable[[A1], R]: ...
+    __arg1: Any = EMPTY,
+    __arg2: A2 = None,
+    __arg3: A3 = None,
+    __arg4: A4 = None,
+    __arg5: A5 = None) -> Callable[[A1], R]: ...
 
 @overload
 def partial5(func: Callable[[A1, A2, A3, A4, A5], R],
-    arg1: A1 = None,
-    arg2: Any = EMPTY,
-    arg3: A3 = None,
-    arg4: A4 = None,
-    arg5: A5 = None) -> Callable[[A2], R]: ...
+    __arg1: A1 = None,
+    __arg2: Any = EMPTY,
+    __arg3: A3 = None,
+    __arg4: A4 = None,
+    __arg5: A5 = None) -> Callable[[A2], R]: ...
 
 @overload
 def partial5(func: Callable[[A1, A2, A3, A4, A5], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: Any = EMPTY,
-    arg4: A4 = None,
-    arg5: A5 = None) -> Callable[[A3], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: Any = EMPTY,
+    __arg4: A4 = None,
+    __arg5: A5 = None) -> Callable[[A3], R]: ...
 
 @overload
 def partial5(func: Callable[[A1, A2, A3, A4, A5], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: A3 = None,
-    arg4: Any = EMPTY,
-    arg5: A5 = None) -> Callable[[A4], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: A3 = None,
+    __arg4: Any = EMPTY,
+    __arg5: A5 = None) -> Callable[[A4], R]: ...
 
 @overload
 def partial5(func: Callable[[A1, A2, A3, A4, A5], R],
-    arg1: A1 = None,
-    arg2: A2 = None,
-    arg3: A3 = None,
-    arg4: A4 = None,
-    arg5: Any = EMPTY) -> Callable[[A5], R]: ...
+    __arg1: A1 = None,
+    __arg2: A2 = None,
+    __arg3: A3 = None,
+    __arg4: A4 = None,
+    __arg5: Any = EMPTY) -> Callable[[A5], R]: ...
 
 
 def partial5( # pyright: ignore [reportInconsistentOverload]
     func: Callable[[A1,A2,A3,A4,A5], R],
-    arg1=EMPTY,
-    arg2=EMPTY,
-    arg3=EMPTY,
-    arg4=EMPTY,
-    arg5=EMPTY):
+    __arg1,
+    __arg2,
+    __arg3,
+    __arg4,
+    __arg5):
     """
     Partially apply a function with 5 arguments, binding all but one.
 
@@ -296,34 +296,34 @@ def partial5( # pyright: ignore [reportInconsistentOverload]
         23
 
     """
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY
-        and arg3 is not EMPTY
-        and arg4 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, arg3, arg4, free_arg)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg4 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __arg3, __arg4, __free_arg)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY
-        and arg3 is not EMPTY
-        and arg5 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, arg3, free_arg, arg5)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg5 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __arg3, __free_arg, __arg5)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg2 is not EMPTY
-        and arg4 is not EMPTY
-        and arg5 is not EMPTY):
-        return lambda free_arg: func(arg1, arg2, free_arg, arg4, arg5)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg2 is not EMPTY
+        and __arg4 is not EMPTY
+        and __arg5 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __arg2, __free_arg, __arg4, __arg5)  # pyright: ignore [reportArgumentType]
 
-    if (arg1 is not EMPTY
-        and arg3 is not EMPTY
-        and arg4 is not EMPTY
-        and arg5 is not EMPTY):
-        return lambda free_arg: func(arg1, free_arg, arg3, arg4, arg5)  # pyright: ignore [reportArgumentType]
+    if (__arg1 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg4 is not EMPTY
+        and __arg5 is not EMPTY):
+        return lambda __free_arg: func(__arg1, __free_arg, __arg3, __arg4, __arg5)  # pyright: ignore [reportArgumentType]
 
-    if (arg2 is not EMPTY
-        and arg3 is not EMPTY
-        and arg4 is not EMPTY
-        and arg5 is not EMPTY):
-        return lambda free_arg: func(free_arg, arg2, arg3, arg4, arg5)  # pyright: ignore [reportArgumentType]
+    if (__arg2 is not EMPTY
+        and __arg3 is not EMPTY
+        and __arg4 is not EMPTY
+        and __arg5 is not EMPTY):
+        return lambda __free_arg: func(__free_arg, __arg2, __arg3, __arg4, __arg5)  # pyright: ignore [reportArgumentType]
 
     raise ValueError("Couldn't bind provided function to provided arguments.")

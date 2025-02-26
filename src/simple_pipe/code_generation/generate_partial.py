@@ -11,9 +11,9 @@ def function_args(combo: tuple[int], num_args: int) -> str:
     args: list[str] = []
     for i in range(1, num_args + 1):
         if i in combo:
-            args.append(f"arg{i}")
+            args.append(f"__arg{i}")
         else:
-            args.append("free_arg")
+            args.append("__free_arg")
     return ", ".join(args)
 
 

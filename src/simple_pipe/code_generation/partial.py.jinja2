@@ -4,9 +4,9 @@
 def partial{{ num_args }}(func: Callable[[{% for j in range(1, num_args + 1) %}A{{ j }}{{ ", " if not loop.last }}{% endfor %}], R], 
     {%- for j in range(1, num_args + 1) %}
     {%- if j == i %}
-    arg{{ j }}: Any = EMPTY{{ "," if not loop.last }}
+    __arg{{ j }}: Any = EMPTY{{ "," if not loop.last }}
     {%- else %}
-    arg{{ j }}: A{{ j }} = None{{ "," if not loop.last }}
+    __arg{{ j }}: A{{ j }} = None{{ "," if not loop.last }}
     {%- endif %}
     {%- endfor %}) -> Callable[[A{{ i }}], R]: ...
 {% endfor %}
@@ -14,7 +14,7 @@ def partial{{ num_args }}(func: Callable[[{% for j in range(1, num_args + 1) %}A
 def partial{{ num_args }}( # pyright: ignore [reportInconsistentOverload]
     func: Callable[[{% for i in range(1, num_args + 1) %}A{{ i }}{{ "," if not loop.last }}{% endfor %}], R], 
     {%- for i in range(1, num_args + 1) %}
-    arg{{ i }}=EMPTY{{ "," if not loop.last }}
+    __arg{{ i }}{{ "," if not loop.last }}
     {%- endfor %}):
     """
     Partially apply a function with {{ num_args }} arguments, binding all but one.
@@ -44,9 +44,9 @@ def partial{{ num_args }}( # pyright: ignore [reportInconsistentOverload]
         {% set total = (num_args - 1) * 5 + 3 %}{{ total }}
 
     """{% for combo in combinations %}
-    if ({% for arg in combo %}arg{{ arg }} is not EMPTY{% if not loop.last %}
+    if ({% for arg in combo %}__arg{{ arg }} is not EMPTY{% if not loop.last %}
         and {% endif %}{% endfor %}):
-        return lambda free_arg: func({{ function_args(combo, num_args) }})  # pyright: ignore [reportArgumentType]
+        return lambda __free_arg: func({{ function_args(combo, num_args) }})  # pyright: ignore [reportArgumentType]
 {% endfor %}
     raise ValueError("Couldn't bind provided function to provided arguments.")
 
